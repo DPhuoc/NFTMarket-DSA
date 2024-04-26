@@ -91,4 +91,86 @@ describe("NFTMarketplace", async function() {
                 .to.be.revertedWith("Price must be at least 1 wei");
         });
     });
+
+    describe("Purchasing marketplace items", function() {
+        let price = 2;
+        let totalPriceinWei;
+        beforeEach(async function() {
+            // addr1 mints an NFT
+            await nft.connect(addr1).mint(URI);
+            // addr1 approves the marketplace to sell the NFT 
+            await nft.connect(addr1).setApprovalForAll(marketplace.address, true);
+            // addr1 offers 1 eth for the NFT
+            await marketplace.connect(addr1).makeItem(nft.address, 1, toWei(price));
+        });
+
+        it("Should update item as sold, transfer funds to seller and fee to owner", async function() {
+            const sellerBalanceBefore = await addr1.getBalance();
+            const ownerBalanceBefore = await owner.getBalance();
+
+            // console.log("Seller balance before: ", fromWei(sellerBalanceBefore));
+            // console.log("Owner balance before: ", fromWei(ownerBalanceBefore));
+            // console.log("Customer balance before: ", fromWei(await addr2.getBalance()));
+
+            // get total price
+            totalPriceinWei = marketplace.getTotalPrice(1);
+
+            // addr2 purchases the item
+            await expect(marketplace.connect(addr2).purchaseItem(1, { value: totalPriceinWei }))
+                .to.emit(marketplace, "Purchased")
+                .withArgs(1, nft.address, 1, toWei(price), addr1.address, addr2.address)
+
+            const sellerBalanceAfter = await addr1.getBalance();
+            const ownerBalanceAfter = await owner.getBalance();
+
+            // console.log("Seller balance after: ", fromWei(sellerBalanceAfter));
+            // console.log("Owner balance after: ", fromWei(ownerBalanceAfter));
+            // console.log("Customer balance after: ", fromWei(await addr2.getBalance()));
+
+
+            // check if the price is transferred to the seller
+            expect(+fromWei(sellerBalanceAfter)).to.equal(+fromWei(sellerBalanceBefore) + price);
+            
+            // console.log("[Success]")
+            
+            // calculate the fee
+            let fee = (feePercent / 100) * price
+            // console.log("Fee: ", fee)
+            // console.log("Total Price: ", +fee + +fromWei(ownerBalanceBefore))
+            // console.log("Check: ", +fromWei(ownerBalanceAfter) - +fee - +fromWei(ownerBalanceBefore))
+            // check if the fee is transferred to the owner
+            expect(+ownerBalanceAfter).to.equal(+toWei(fee) + +ownerBalanceBefore);
+
+            // check if addr2 is the owner of the NFT
+            expect(await nft.ownerOf(1)).to.equal(addr2.address);
+
+            // check if the item is updated correctly
+            expect((await marketplace.items(1)).isSold).to.equal(true);
+        });
+
+        it("Should fail if the price is not enough", async function() {
+            // check if item is not available
+            await expect(
+                marketplace.connect(addr2).purchaseItem(2, { value: totalPriceinWei })
+            ).to.be.revertedWith("Item not available");
+
+            
+            await expect(
+                marketplace.connect(addr2).purchaseItem(0, { value: totalPriceinWei })
+            ).to.be.revertedWith("Item not available");
+
+            // check if price is not enough
+            await expect(
+                marketplace.connect(addr2).purchaseItem(1, { value: toWei(price) })
+            ).to.be.revertedWith("Not enough funds sent");
+
+            // addr2 purchases the item
+            await marketplace.connect(addr2).purchaseItem(1, { value: totalPriceinWei });
+
+            // check if item is already sold
+            await expect(
+                marketplace.connect(addr2).purchaseItem(1, { value: totalPriceinWei })
+            ).to.be.revertedWith("Item is already sold");
+        });
+    });
 }); 
