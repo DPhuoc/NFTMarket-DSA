@@ -61,11 +61,11 @@ describe("NFTMarketplace", async function() {
             await nft.connect(addr1).setApprovalForAll(marketplace.address, true);
         });        
 
-        it("Track newly created items for sale, transfer it to marketplace", async function() {
+        it("Should track newly created items for sale, transfer it to marketplace", async function() {
             // addr1 offers 1 eth for the NFT
-            await expect(marketplace.connect(addr1).makeItem(nft.address, 1, toWei(1))
+            await expect(marketplace.connect(addr1).makeItem(nft.address, 1, toWei(1)))
                 .to.emit(marketplace, "Offered")
-                .withArgs(1, nft.address, 1, toWei(1), addr1.address));
+                .withArgs(1, nft.address, 1, toWei(1), addr1.address)
 
             // await marketplace.connect(addr1).makeItem(nft.address, 1, toWei(1));
             // console.log(marketplace)
@@ -88,7 +88,7 @@ describe("NFTMarketplace", async function() {
         it("Should fail if price is 0", async function() {
             // check price is 0
             await expect(marketplace.connect(addr1).makeItem(nft.address, 1, 0))
-                .to.be.revertedWith("Price cannot be 0");
+                .to.be.revertedWith("Price must be at least 1 wei");
         });
     });
-});
+}); 
