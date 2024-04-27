@@ -1,48 +1,91 @@
 
 import logo from './logo.png';
 import './App.css';
- 
+
+import {
+    BrowserRouter,
+    Route,
+    Routes
+} from 'react-router-dom';
+
+import { useState } from 'react';
+
+import { ethers } from 'ethers';
+
+import MarketplaceAbi from '../contractsData/Marketplace.json';
+import MarketplaceAddress from '../contractsData/Marketplace-address.json';
+
+import NFTAbi from '../contractsData/NFT.json';
+import NFTAddress from '../contractsData/NFT-address.json';
+
+import Navigation from './Navbar';
+
+import Home from './Home';
+import Create from './Create';
+import MyItems from './MyItems';
+import MyPurchases from './MyPurchases';
+import { Spinner } from 'react-bootstrap';
+
+
 function App() {
+
+    // state variable
+    const [loading, setLoading] = useState(true);
+    const [account, setAccount] = useState(null);
+    const [nft, setNft] = useState({});
+    const [marketplace, setMarketplace] = useState({});
+
+    // MetaMask Login
+    const web3Handler = async () => {
+        // request access to the user's MetaMask account
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+
+        // set the account state variable
+        setAccount(accounts[0]);
+        // get the provider from metamask
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        // get the signer
+        const signer = provider.getSigner();
+
+        // load contract data
+        loadContractData(signer);
+    }
+
+    // Load Contract Data
+    const loadContractData = async (signer) => {
+        // Get deployed contract
+        const marketplace = new ethers.Contract(MarketplaceAddress.address, MarketplaceAbi.abi, signer);
+        // Set the marketplace state variable
+        setMarketplace(marketplace);
+        // get NFT contract
+        const nft = new ethers.Contract(NFTAddress.address, NFTAbi.abi, signer);
+        // Set the nft state variable
+        setNft(nft);
+        // set loading to false
+        setLoading(false);
+    }
+
     return (
-        <div>
-            <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-                <a
-                className="navbar-brand col-sm-3 col-md-2 ms-3"
-                href="http://www.dappuniversity.com/bootcamp"
-                target="_blank"
-                rel="noopener noreferrer"
-                >
-                Dapp University
-                </a>
-            </nav>
-            <div className="container-fluid mt-5">
-                <div className="row">
-                <main role="main" className="col-lg-12 d-flex text-center">
-                    <div className="content mx-auto mt-5">
-                    <a
-                        href="http://www.dappuniversity.com/bootcamp"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        <img src={logo} className="App-logo" alt="logo"/>
-                    </a>
-                    <h1 className= "mt-5">Dapp University Starter Kit</h1>
-                    <p>
-                        Edit <code>src/frontend/components/App.js</code> and save to reload.
-                    </p>
-                    <a
-                        className="App-link"
-                        href="http://www.dappuniversity.com/bootcamp"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        LEARN BLOCKCHAIN <u><b>NOW! </b></u>
-                    </a>
+        <BrowserRouter>
+            <div className='App'>
+                <Navigation web3Handler={web3Handler} account={account} />
+                {loading ? (
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+                        <Spinner animation="border" style={{ display: 'flex' }} />
+                        <p className='mx-3 my-0'>Loading...</p>
                     </div>
-                </main>
-                </div>
+                ) : (
+                    <Routes>
+                        <Route path="/" element={<Home marketplace={marketplace} nft={nft} />} />
+                        <Route path="/create"/>
+                        <Route path="/my-items"/>
+                        <Route path="/my-purchases" />
+                    </Routes>
+                )}
+
             </div>
-        </div>
+        </BrowserRouter>
+        
     );
 }
 
