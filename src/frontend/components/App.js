@@ -19,12 +19,16 @@ import NFTAbi from '../contractsData/NFT.json';
 import NFTAddress from '../contractsData/NFT-address.json';
 
 import Navigation from './Navbar';
+import { 
+    MDBContainer,
+    MDBSpinner,
+    MDBBtn
+} from 'mdb-react-ui-kit';
 
 import Home from './Home';
 import Create from './Create';
 import MyItems from './MyItems';
 import MyPurchases from './MyPurchases';
-import { Spinner } from 'react-bootstrap';
 
 
 function App() {
@@ -67,12 +71,12 @@ function App() {
 
     return (
         <BrowserRouter>
-            <div className='App'>
+            <MDBContainer fluid className='p-0' style={{ height: '100%' }}>
                 <Navigation web3Handler={web3Handler} account={account} />
                 {loading ? (
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-                        <Spinner animation="border" style={{ display: 'flex' }} />
-                        <p className='mx-3 my-0'>Loading...</p>
+                    <div className='d-flex justify-content-center align-items-center' style={{ height: '100%'}}>
+                        <MDBSpinner role='status'/>
+                        <span className='justify-content-center text-center'>Loading...</span>
                     </div>
                 ) : (
                     <Routes>
@@ -83,7 +87,7 @@ function App() {
                     </Routes>
                 )}
 
-            </div>
+            </MDBContainer>
         </BrowserRouter>
         
     );

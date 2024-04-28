@@ -1,38 +1,56 @@
 import { Link } from "react-router-dom";
-import { Navbar, Nav, Button, Container } from "react-bootstrap";
+import {
+    MDBContainer,
+    MDBNavbar,
+    MDBNavbarBrand,
+    MDBNavbarToggler,
+    MDBNavbarNav,
+    MDBNavbarItem,
+    MDBNavbarLink,
+    MDBCollapse,
+    MDBBtn,
+    MDBIcon
+} from 'mdb-react-ui-kit';
+
+import { useState } from 'react';
+
+import ICON from '../Ethereum.svg'
 
 const Navigation = ({ web3Handler, account }) => {
+    const [openBasic, setOpenBasic] = useState(false);
+
     return (
-        <Navbar bg="dark" variant="dark" expand="lg">
-            <Container>
-                <Navbar.Brand href="https://www.facebook.com/profile.php?id=100015934804255">ADP Marketplace</Navbar.Brand>
-                <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-                <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="me-auto">
-                        <Link to="/" className="nav-link">Home</Link>
-                        <Link to="/create" className="nav-link">Create</Link>
-                        <Link to="/my-items" className="nav-link">My Items</Link>
-                        <Link to="/my-purchases" className="nav-link">My Purchases</Link>
-                    </Nav>
-                    <Nav>
+        <MDBNavbar fixed='top' light style={{ backgroundColor: '#EEEDF2' }} expand="lg">
+            <MDBContainer xl>
+                <MDBNavbarBrand href="https://www.facebook.com/profile.php?id=100015934804255">
+                    <img src={ICON} alt="Ethereum" style={{ width: '50px', height: '50px' }} />
+                    ADP Marketplace
+                </MDBNavbarBrand>
+                <MDBNavbarToggler      
+                    aria-controls='navbarSupportedContent'
+                    aria-expanded='true'
+                    aria-label='Toggle navigation' 
+                    onClick={() => setOpenBasic(!openBasic)}
+                />
+                <MDBNavbarNav open={openBasic}>
+                    <Link to="/" className="nav-link">Home</Link>
+                    <Link to="/create" className="nav-link">Create</Link>
+                    <Link to="/my-items" className="nav-link">My Items</Link>
+                    <Link to="/my-purchases" className="nav-link">My Purchases</Link>
+                </MDBNavbarNav>
+                <MDBCollapse navbar fluid>
+                    <MDBNavbarNav>
                         {account ? (
-                            <Nav.Link
-                                href={`https://etherscan.io/address/${account}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="button nav-button btn-sm mx-4"
-                            >
-                                <Button variant="outline-light">
-                                    {account.slice(0, 5)}...{account.slice(account.length - 4)}
-                                </Button>
-                            </Nav.Link>
+                            <MDBNavbarLink href={`https://etherscan.io/address/${account}`}>
+                                <MDBBtn outline noRipple >{account.slice(0, 4) + '...' + account.slice(28, 32)}</MDBBtn>
+                            </MDBNavbarLink>
                         ) : (
-                            <Button variant="outline-light" onClick={web3Handler}>Connect</Button>
+                            <MDBBtn outline  noRipple onClick={web3Handler}>Connect</MDBBtn>
                         )}
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
+                    </MDBNavbarNav>
+                </MDBCollapse>
+            </MDBContainer>
+        </MDBNavbar>
     )
 }
 

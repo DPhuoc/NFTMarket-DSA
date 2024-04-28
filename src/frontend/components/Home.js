@@ -1,6 +1,18 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { Row, Col, Card, Button, Spinner } from "react-bootstrap";
+import {
+    MDBContainer,
+    MDBRow,
+    MDBCol,
+    MDBCard,
+    MDBCardBody,
+    MDBCardImage,
+    MDBCardTitle,
+    MDBIcon,
+    MDBSpinner,
+    MDBRipple,
+    MDBBtn
+} from "mdb-react-ui-kit";
 
 const Home = ({ marketplace, nft }) => {
     // state variables
@@ -57,18 +69,52 @@ const Home = ({ marketplace, nft }) => {
 
     if (loading) {
         return (
-            <div className="flex justify-center">
-                <Spinner animation="border" role="status">
-                    <span className="visually-hidden">Loading...</span>
-                </Spinner>
-            </div>
+            <div className='d-flex justify-content-center align-items-center'>
+                <MDBSpinner role='status'/>
+            <span className='justify-content-center text-center'>Loading...</span>
+        </div>
         )
     }
 
     return (
-        <div className="flex justify-center">
-            
-        </div>
+        <MDBContainer xl className="text-center d-flex" style={{ height: '90%', marginTop: '150px',}}>
+            <MDBRow>
+                {items.length > 0 ? items.map((item, index) => (
+                    <MDBCol md="12" lg="4" className="mb-4 mb-lg-0">
+                    <MDBCard>
+                        <div className="d-flex justify-content-between p-3">
+                            <p className="lead mb-0">Today's Combo Offer</p>
+                        </div>
+                        <MDBCardImage
+                            src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/4.webp"
+                            position="top"
+                            alt="Laptop"
+                        />
+
+                        <MDBCardBody>
+
+                            <div className="d-flex justify-content-between mb-3">
+                                <h5 className="mb-0">HP Notebook</h5>
+                                <h5 className="text-dark mb-0">$999</h5>
+                            </div>
+
+                            <div class="d-flex justify-content-between mb-2">
+                                <p class="text-muted mb-0">
+                                    Description
+                                </p>
+                            </div>
+                            <MDBBtn onClick={() => buyItem(item)} color='primary'>Buy Now</MDBBtn>
+                        </MDBCardBody>
+                    </MDBCard>
+                </MDBCol>
+                )) : (
+                    <div className='d-flex justify-content-center'>
+                        <h5 className='justify-content-center text-dark'>No items available</h5>
+                    </div>
+                )}
+                
+            </MDBRow>
+        </MDBContainer>
     )
 }
 
