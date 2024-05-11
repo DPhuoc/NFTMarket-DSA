@@ -32,6 +32,8 @@ const Create = ({ marketplace, nft, account }) => {
             try {
                 const formData = new FormData();
                 formData.append('file', file);
+                console.log(file)
+                console.log(formData)
                 const response = await axios.post('https://api.pinata.cloud/pinning/pinFileToIPFS', formData, {
                     maxBodyLength: "Infinity",
                     headers: {
@@ -55,20 +57,18 @@ const Create = ({ marketplace, nft, account }) => {
         
         try {
             const data = JSON.stringify({ image, name, description, price });
-            // const formData = new FormData();
-            // formData.append('data', data);
-            // console.log(data);
-            // const response = await axios.post('https://api.pinata.cloud/pinning/pinJSONToIPFS', formData, {
-            //     maxBodyLength: "Infinity",
-            //     headers: {
-            //         'Content-Type': 'application/json',
-            //         'Authorization': `Bearer ${JWT}`
-            //     }
-            // });
+            const blob = new Blob([data], { type: 'application/json' });
+            const formData = new FormData();
+            formData.append('file', blob);
+            const response = await axios.post('https://api.pinata.cloud/pinning/pinFileToIPFS', formData, {
+                maxBodyLength: "Infinity",
+                headers: {
+                    'Authorization': `Bearer ${JWT}`
+                }
+            });
             
-            // console.log('Metadata response: ', response);
-            // mintThenList(response.data.IpfsHash);
-            mintThenList(data);
+            console.log(response);
+            mintThenList(response.data.IpfsHash);
         } catch (error) {
             console.log('Error uploading metadata: ', error);
         }
@@ -76,8 +76,7 @@ const Create = ({ marketplace, nft, account }) => {
 
     // mint and list the item
     const mintThenList = async (result) => {
-        // const URI = `https://amaranth-sophisticated-rat-495.mypinata.cloud/ipfs/${result}`;
-        const URI = `sampleURI`;
+        const URI = `https://amaranth-sophisticated-rat-495.mypinata.cloud/ipfs/${result}`;
         // mint NFT
         await (await nft.mint(URI)).wait();
         // get toKenId of the minted NFT
