@@ -71,7 +71,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            <MDBContainer fluid className='p-0' style={{ height: '100%' }}>
+            <MDBContainer fluid className='p-5' style={{ height: '100%' }}>
                 <Navigation web3Handler={web3Handler} account={account} />
                 {loading ? (
                     <div className='d-flex justify-content-center align-items-center' style={{ height: '100%'}}>
@@ -81,9 +81,9 @@ function App() {
                 ) : (
                     <Routes>
                         <Route path="/" element={<Home marketplace={marketplace} nft={nft} />} />
-                        <Route path="/create"/>
-                        <Route path="/my-items"/>
-                        <Route path="/my-purchases" />
+                        <Route path="/create" element={<Create marketplace={marketplace} nft={nft} />} />
+                        <Route path="/my-items" element={<MyItems marketplace={marketplace} nft={nft} account={account} />} />
+                        <Route path="/my-purchases" element={<MyPurchases marketplace={marketplace} nft={nft} account={account} />} />
                     </Routes>
                 )}
 
