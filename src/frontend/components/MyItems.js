@@ -15,6 +15,52 @@ import {
 } from 'mdb-react-ui-kit';
 
 export default function MyItems({ marketplace, nft, account }) {
+    /**
+     * MyItems Component
+     *
+     * This component displays the items listed by the current user in the marketplace. It fetches and loads
+     * both listed and sold items, displaying them in separate sections.
+     *
+     * @component
+     *
+     * @param {object} props - The component props.
+     * @param {object} props.marketplace - The marketplace contract instance.
+     * @param {object} props.nft - The NFT contract instance.
+     * @param {string} props.account - The user's Ethereum account address.
+     *
+     * @returns {JSX.Element} The rendered component.
+     *
+     * State Variables:
+     * @state {boolean} loading - Indicates if the component is in a loading state.
+     * @state {Array} listedItems - An array of items listed by the user.
+     * @state {Array} soldItems - An array of items sold by the user.
+     *
+     * Methods:
+     * @function loadListedItems - Fetches and loads items listed by the user from the marketplace, setting the
+     *                             `listedItems` and `soldItems` state variables, and updating the `loading` state.
+     *
+     * Hooks:
+     * @hook useEffect - Calls `loadListedItems` when the component mounts to load the initial listed items.
+     *
+     * Usage:
+     * Import and render this component to display the items listed and sold by the user in the marketplace.
+     * Ensure that the necessary contract instances and account information are passed as props.
+     *
+     * @example
+     * import React from 'react';
+     * import MyItems from './MyItems';
+     * 
+     * const App = () => {
+     *   const marketplace = // ... obtain marketplace contract instance
+     *   const nft = // ... obtain NFT contract instance
+     *   const account = // ... obtain the user's Ethereum account
+     * 
+     *   return <MyItems marketplace={marketplace} nft={nft} account={account} />;
+     * }
+     *
+     * export default App;
+     */
+
     const [loading, setLoading] = useState(true);
     const [listedItems, setListedItems] = useState([]);
     const [soldItems, setSoldItems] = useState([]);
@@ -112,7 +158,7 @@ export default function MyItems({ marketplace, nft, account }) {
                                 <p className="lead mb-0">Today's Combo Offer {index}</p>
                             </div>
                             <MDBCardImage
-                                src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/4.webp"
+                                src={item.image}
                                 position="top"
                                 alt="Laptop"
                             />
@@ -120,13 +166,13 @@ export default function MyItems({ marketplace, nft, account }) {
                             <MDBCardBody>
 
                                 <div className="d-flex justify-content-between mb-3">
-                                    <h5 className="mb-0">HP Notebook</h5>
-                                    <h5 className="text-dark mb-0">$999</h5>
+                                    <h5 className="mb-0">{item.name}</h5>
+                                    <h5 className="text-dark mb-0">${item.price}</h5>
                                 </div>
 
                                 <div class="d-flex justify-content-between mb-2">
                                     <p class="text-muted mb-0">
-                                        Description
+                                        {item.description}
                                     </p>
                                 </div>
                             </MDBCardBody>

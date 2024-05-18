@@ -5,6 +5,12 @@ const { ethers } = require("hardhat");
 const toWei = (value) => ethers.utils.parseEther(value.toString());
 const fromWei = (value) => ethers.utils.formatEther(value.toString());
 
+/**
+ * @file NFTMarketplace.test.js
+ * @summary This file contains unit tests for the NFTMarketplace smart contract.
+ * @description The tests cover deployment, minting NFTs, making items for sale, and purchasing marketplace items.
+ */
+
 // eslint-disable-next-line jest/valid-describe-callback
 describe("NFTMarketplace", async function() {
     let owner, addr1, addr2, nft, marketplace;

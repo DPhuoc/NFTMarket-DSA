@@ -17,6 +17,41 @@ import { useState } from 'react';
 import ICON from '../Ethereum.svg'
 
 const Navigation = ({ web3Handler, account }) => {
+    /**
+     * Navigation Component
+     *
+     * This component renders the navigation bar for the application, including links to different pages and a
+     * button for connecting to MetaMask. The navigation bar is fixed to the top of the page and collapses on smaller screens.
+     *
+     * @component
+     *
+     * @param {object} props - The component props.
+     * @param {function} props.web3Handler - The function to handle MetaMask connection.
+     * @param {string} props.account - The user's Ethereum account address.
+     *
+     * @returns {JSX.Element} The rendered component.
+     *
+     * State Variables:
+     * @state {boolean} openBasic - A state variable that toggles the collapse state of the navigation menu.
+     *
+     * Usage:
+     * Import and render this component to provide navigation links and a MetaMask connection button in the application.
+     * Ensure that the necessary functions and account information are passed as props.
+     *
+     * @example
+     * import React from 'react';
+     * import Navigation from './Navigation';
+     * 
+     * const App = () => {
+     *   const web3Handler = // ... define the function to handle MetaMask connection
+     *   const account = // ... obtain the user's Ethereum account
+     * 
+     *   return <Navigation web3Handler={web3Handler} account={account} />;
+     * }
+     *
+     * export default App;
+     */
+
     const [openBasic, setOpenBasic] = useState(false);
 
     return (

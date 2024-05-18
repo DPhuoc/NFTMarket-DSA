@@ -15,6 +15,50 @@ import {
 } from "mdb-react-ui-kit";
 
 const Home = ({ marketplace, nft }) => {
+    /**
+     * Home Component
+     *
+     * This component displays the available NFTs on the marketplace. It fetches and loads the market items,
+     * displaying each item with its details (name, description, price, and image). Users can purchase items directly
+     * from this interface.
+     *
+     * @component
+     *
+     * @param {object} props - The component props.
+     * @param {object} props.marketplace - The marketplace contract instance.
+     * @param {object} props.nft - The NFT contract instance.
+     *
+     * @returns {JSX.Element} The rendered component.
+     *
+     * State Variables:
+     * @state {Array} items - An array of items available in the marketplace.
+     * @state {boolean} loading - Indicates if the component is in a loading state.
+     *
+     * Methods:
+     * @function loadMarketItems - Fetches and loads items from the marketplace, sets the `items` state variable, and updates the `loading` state.
+     * @function buyItem - Purchases an item from the marketplace and reloads the market items.
+     *
+     * Hooks:
+     * @hook useEffect - Calls `loadMarketItems` when the component mounts to load the initial market items.
+     *
+     * Usage:
+     * Import and render this component to display the available items in the marketplace. Ensure that the necessary
+     * contract instances are passed as props.
+     *
+     * @example
+     * import React from 'react';
+     * import Home from './Home';
+     * 
+     * const App = () => {
+     *   const marketplace = // ... obtain marketplace contract instance
+     *   const nft = // ... obtain NFT contract instance
+     * 
+     *   return <Home marketplace={marketplace} nft={nft} />;
+     * }
+     *
+     * export default App;
+     */
+
     // state variables
     const [items, setItems] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -109,7 +153,7 @@ const Home = ({ marketplace, nft }) => {
                                         {item.description}
                                     </p>
                                 </div>
-                                <MDBBtn onClick={() => buyItem(item)} color='primary'>Buy Now</MDBBtn>
+                                <MDBBtn noRipple onClick={() => buyItem(item)} color='primary'>Buy Now</MDBBtn>
                             </MDBCardBody>
                         </MDBCard>
                     </MDBCol>

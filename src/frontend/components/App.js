@@ -33,6 +33,40 @@ import MyPurchases from './MyPurchases';
 
 function App() {
 
+    /**
+     * Main application component for managing and displaying NFT marketplace.
+     *
+     * This component handles the initialization of the application state, including user authentication with MetaMask,
+     * and loading of contract data for interacting with an NFT marketplace and NFT contracts. It renders the main layout
+     * and navigation for the application, conditionally displaying content based on the loading state.
+     *
+     * @component
+     *
+     * @returns {JSX.Element} The rendered component.
+     *
+     * State Variables:
+     * @state {boolean} loading - Indicates if the application is in a loading state.
+     * @state {string|null} account - The user's Ethereum account address from MetaMask.
+     * @state {object} nft - The NFT contract instance.
+     * @state {object} marketplace - The marketplace contract instance.
+     *
+     * Methods:
+     * @function web3Handler - Handles MetaMask login and sets the account state variable, then loads contract data.
+     * @function loadContractData - Loads the marketplace and NFT contract instances, sets the respective state variables, and sets loading to false.
+     *
+     * Usage:
+     * Import and render this component at the root of your application to provide the main structure and functionality
+     * for the NFT marketplace. The component will handle MetaMask authentication, load the necessary contract data, and
+     * conditionally render the application routes based on the loading state.
+     *
+     * @example
+     * import React from 'react';
+     * import ReactDOM from 'react-dom';
+     * import App from './App';
+     *
+     * ReactDOM.render(<App />, document.getElementById('root'));
+     */
+
     // state variable
     const [loading, setLoading] = useState(true);
     const [account, setAccount] = useState(null);

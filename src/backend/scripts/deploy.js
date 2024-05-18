@@ -1,5 +1,16 @@
 const { ethers, artifacts } = require("hardhat")
 
+/**
+ * @file deploy.js
+ * @summary This script deploys NFT and Marketplace contracts using Hardhat, and saves their ABI and addresses for frontend integration.
+ * @description The script utilizes Hardhat to deploy NFT and Marketplace contracts, retrieves their addresses and ABI artifacts, and saves them in JSON files for frontend access. It also logs deployment details such as the deployer's address and balance.
+ */
+
+
+/**
+ * @summary Main function for deploying contracts and saving frontend files.
+ * @returns {Promise<void>} A promise that resolves when the deployment is complete.
+ */
 async function main() {
 
     const [deployer] = await ethers.getSigners();
@@ -26,6 +37,11 @@ async function main() {
     saveFrontendFiles(marketplace, "Marketplace");
 }
 
+/**
+ * @summary Function to save ABI and address of a contract for frontend use.
+ * @param {Object} contract - The deployed contract instance.
+ * @param {string} name - The name of the contract.
+ */
 function saveFrontendFiles(contract, name) {
     const fs = require("fs");
     const contractsDir = __dirname + "/../../frontend/contractsData";

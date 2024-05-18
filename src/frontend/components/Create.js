@@ -18,6 +18,50 @@ const JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaW
 
 
 const Create = ({ marketplace, nft, account }) => {
+    /**
+     * Create Component
+     *
+     * This component allows users to create and mint new NFTs on the marketplace. Users can upload an image to IPFS,
+     * enter the NFT details (name, description, and price), and then mint and list the NFT on the marketplace.
+     *
+     * @component
+     *
+     * @param {object} props - The component props.
+     * @param {object} props.marketplace - The marketplace contract instance.
+     * @param {object} props.nft - The NFT contract instance.
+     * @param {string} props.account - The user's Ethereum account address.
+     *
+     * @returns {JSX.Element} The rendered component.
+     *
+     * State Variables:
+     * @state {File|null} image - The uploaded image file.
+     * @state {string} price - The price of the NFT.
+     * @state {string} name - The name of the NFT.
+     * @state {string} description - The description of the NFT.
+     *
+     * Methods:
+     * @function uploadToIPFS - Handles the upload of an image file to IPFS using Pinata, setting the image state variable with the IPFS URL.
+     * @function createNFT - Creates a JSON object with the NFT details, uploads it to IPFS, and calls `mintThenList` with the IPFS hash.
+     * @function mintThenList - Mints the NFT with the provided metadata URI, approves the marketplace contract, and lists the NFT on the marketplace.
+     *
+     * Usage:
+     * Import and render this component to provide an interface for users to create and mint new NFTs. Ensure that the
+     * necessary contract instances and account information are passed as props.
+     *
+     * @example
+     * import React from 'react';
+     * import Create from './Create';
+     * 
+     * const App = () => {
+     *   const marketplace = // ... obtain marketplace contract instance
+     *   const nft = // ... obtain NFT contract instance
+     *   const account = // ... obtain user account
+     * 
+     *   return <Create marketplace={marketplace} nft={nft} account={account} />;
+     * }
+     *
+     * export default App;
+     */
     // state variables
     const [image, setImage] = useState(null);
     const [price, setPrice] = useState('');
