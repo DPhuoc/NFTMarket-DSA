@@ -9,7 +9,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
  * This contract allows users to mint ERC721 tokens with associated metadata URIs.
  */
 contract NFT is ERC721URIStorage {
-    uint256 public tokenCount;
+    uint256 public tokenCount; // The total number of tokens minted
 
     /**
      * @dev Initializes the contract by setting the name and symbol for the NFT.

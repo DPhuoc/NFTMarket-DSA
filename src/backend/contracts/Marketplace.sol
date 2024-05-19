@@ -18,7 +18,7 @@ contract Marketplace is ReentrancyGuard {
     address payable public immutable feeAccount; // the account that receives fees
     uint256 public immutable feePercent; // the fee percentage on sales
 
-    uint256 public itemCount;
+    uint256 public itemCount; // the number of items listed for sale
 
     // struct to represent an item
     struct Item {
@@ -29,7 +29,7 @@ contract Marketplace is ReentrancyGuard {
         address payable seller;
         bool isSold;
     }
-        // Events
+     // Events
     /**
      * @dev Emitted when an item is offered for sale.
      * @param itemId The ID of the item
