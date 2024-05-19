@@ -202,3 +202,191 @@ export default App;
 ```
 
 ### Navbar.js
+Navigation Component
+
+This component renders the navigation bar for the application, including links to different pages and a button for connecting to MetaMask. The navigation bar is fixed to the top of the page and collapses on smaller screens.
+
+Component:
+```javascript
+@param {object} props - The component props.
+@param {function} props.web3Handler - The function to handle MetaMask connection.
+@param {string} props.account - The user's Ethereum account address.
+
+@returns {JSX.Element} The rendered component.
+```
+
+State Variables:
+```javascript
+@state {boolean} openBasic - A state variable that toggles the collapse state of the navigation menu.
+```
+
+Usage:
+- Import and render this component to provide navigation links and a MetaMask connection button in the application.
+- Ensure that the necessary functions and account information are passed as props.
+
+Example:
+```javascript
+import React from 'react';
+import Navigation from './Navigation';
+
+const App = () => {
+    const web3Handler = // ... define the function to handle MetaMask connection
+    const account = // ... obtain the user's Ethereum account
+
+    return <Navigation web3Handler={web3Handler} account={account} />;
+}
+
+export default App;
+```
+
+### Create.js
+Create Component
+
+This component allows users to create and mint new NFTs on the marketplace. Users can upload an image to IPFS, enter the NFT details (name, description, and price), and then mint and list the NFT on the marketplace.
+
+Component:
+```javascript
+@param {object} props - The component props.
+@param {object} props.marketplace - The marketplace contract instance.
+@param {object} props.nft - The NFT contract instance.
+@param {string} props.account - The user's Ethereum account address.
+
+@returns {JSX.Element} The rendered component.
+```
+
+State variables:
+```javascript
+@state {File|null} image - The uploaded image file.
+@state {string} price - The price of the NFT.
+@state {string} name - The name of the NFT.
+@state {string} description - The description of the NFT.
+```
+
+Methods:
+```javascript
+@function uploadToIPFS - Handles the upload of an image file to IPFS using Pinata, setting the image state variable with the IPFS URL.
+@function createNFT - Creates a JSON object with the NFT details, uploads it to IPFS, and calls `mintThenList` with the IPFS hash.
+@function mintThenList - Mints the NFT with the provided metadata URI, approves the marketplace contract, and lists the NFT on the marketplace.
+```
+
+Usage:
+- Import and render this component to provide an interface for users to create and mint new NFTs. Ensure that the necessary contract instances and account information are passed as props.
+
+Example:
+```javascript
+import React from 'react';
+import Create from './Create';
+     
+const App = () => {
+    const marketplace = // ... obtain marketplace contract instance
+    const nft = // ... obtain NFT contract instance
+    const account = // ... obtain user account
+    
+    return <Create marketplace={marketplace} nft={nft} account={account} />;
+}
+
+export default App;
+```
+
+### Myitem.js
+MyItems Component
+
+This component displays the items listed by the current user in the marketplace. It fetches and loads both listed and sold items, displaying them in separate sections.
+
+Component:
+```javascript
+@param {object} props - The component props.
+@param {object} props.marketplace - The marketplace contract instance.
+@param {object} props.nft - The NFT contract instance.
+@param {string} props.account - The user's Ethereum account address.
+
+@returns {JSX.Element} The rendered component.
+```
+
+State Variables:
+```javascript
+@state {boolean} loading - Indicates if the component is in a loading state.
+@state {Array} listedItems - An array of items listed by the user.
+@state {Array} soldItems - An array of items sold by the user.
+```
+
+Methods:
+```javascript
+@function loadListedItems 
+```
+
+Hooks:
+```javascript
+@hook useEffect - Calls `loadListedItems` when the component mounts to load the initial listed items.
+```
+
+Usage:
+- Import and render this component to display the items listed and sold by the user in the marketplace.
+- Ensure that the necessary contract instances and account information are passed as props.
+
+Example:
+```javascript
+import React from 'react';
+import MyItems from './MyItems';
+ 
+const App = () => {
+    const marketplace = // ... obtain marketplace contract instance
+    const nft = // ... obtain NFT contract instance
+    const account = // ... obtain the user's Ethereum account
+
+    return <MyItems marketplace={marketplace} nft={nft} account={account} />;
+}
+
+export default App;
+```
+
+### Mypurchase.js
+MyPurchases Component
+
+This component displays the items purchased by the current user from the marketplace. It fetches and loads the purchased items, displaying them in a grid layout.
+
+Component:
+```javascript
+@param {object} props - The component props.
+@param {object} props.marketplace - The marketplace contract instance.
+@param {object} props.nft - The NFT contract instance.
+@param {string} props.account - The user's Ethereum account address.
+
+@returns {JSX.Element} The rendered component.
+```
+
+State variables:
+```javascript
+@state {boolean} loading - Indicates if the component is in a loading state.
+@state {Array} purchasedItems - An array of items purchased by the user.
+```
+
+Methods:
+```javascript
+@function loadPurchasedItems - Fetches and loads items purchased by the user from the marketplace, setting the `purchasedItems` state variable, and updating the `loading` state.
+```
+
+Hooks:
+```javascript
+@hook useEffect - Calls `loadPurchasedItems` when the component mounts to load the initial purchased items.
+```
+
+Usage:
+- Import and render this component to display the items purchased by the user from the marketplace.
+- Ensure that the necessary contract instances and account information are passed as props.
+
+Example:
+```javascript
+import React from 'react';
+import MyPurchases from './MyPurchases';
+     
+const App = () => {
+     const marketplace = // ... obtain marketplace contract instance
+     const nft = // ... obtain NFT contract instance
+     const account = // ... obtain the user's Ethereum account
+     
+     return <MyPurchases marketplace={marketplace} nft={nft} account={account} />;
+}
+     
+export default App;
+```
