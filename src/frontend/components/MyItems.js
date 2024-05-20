@@ -133,7 +133,7 @@ export default function MyItems({ marketplace, nft, account }) {
 
                                 <div className="d-flex justify-content-between mb-3">
                                     <h5 className="mb-0">{item.name}</h5>
-                                    <h5 className="text-dark mb-0">${item.price}</h5>
+                                    <h5 className="text-dark mb-0">{item.price}ETH</h5>
                                 </div>
 
                                 <div class="d-flex justify-content-between mb-2">
@@ -167,7 +167,7 @@ export default function MyItems({ marketplace, nft, account }) {
 
                                 <div className="d-flex justify-content-between mb-3">
                                     <h5 className="mb-0">{item.name}</h5>
-                                    <h5 className="text-dark mb-0">${item.price}</h5>
+                                    <h5 className="text-dark mb-0">{item.price}ETH</h5>
                                 </div>
 
                                 <div class="d-flex justify-content-between mb-2">
